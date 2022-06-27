@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>도서목록</title>
+<title>Insert title here</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -14,7 +14,7 @@
 </head>
 <body>
 	<%
-	   List<Map<String, Object>> list = new ArrayList<>();
+    List<Map<String, Object>> list = new ArrayList<>();
     Map<String, Object> map = new HashMap<String, Object>() {
         { 
             put("id", 1000);
@@ -59,36 +59,27 @@
     };
     list.add(map);
 	%>
-	<div class="container">
-	
-		<h1 class="text-center">책 목록</h1>
+	<%
+		// 책을 특정할 수 있는 파라미터 (책의 id를 전달한다.)
+		int bookId = Integer.parseInt(request.getParameter("book_id"));
 		
-			<table class="table text-center">
-				<thead>
-					<tr>
-						<td>id</td>
-						<td>표지</td>
-						<th>제목</th>
-					</tr>			
-				</thead>
-				<tbody>
-				<%-- 리스트에서 책 정보 하나씩 꺼내기 --%>
-				<% for(Map<String, Object> book : list){ %>
-					<tr>
-						<td><%= book.get("id") %></td>
-						<td>
-							<img width="100" src="<%=book.get("image")%>">
-						</td>
-					
-					<td class="display-4">
-						<a href="http://localhost:8080/jsp/test08_2.jsp?book_id=<%=book.get("id")%>">
-						<%=book.get("title") %>
-						</a>
-					</td>
-					</tr>
-					<%} %>
-				</tbody>
-			</table>
+	%>
+	<div class="container">
+		<% for(Map<String, Object> book : list) {
+			
+			// 일치하는 책 찾기
+			int id = (Integer)book.get("id");
+			if(bookId == id){
+		%>
+		<div class="d-flex">
+			<img src="<%=book.get("image") %>">
+			<div>
+				<div class="display-1 font-weight-bold"><%=book.get("title") %></div>
+				<div class="display-3 text-info"><%=book.get("author")%></div>
+				<div class="display-4 text-secondary"><%=book.get("publisher")%></div>
+			</div>
 		</div>
-	</body>
+		<%}} %>
+	</div>
+</body>
 </html>
