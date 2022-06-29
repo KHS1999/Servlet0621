@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ page import="java.util.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,47 +14,74 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-
 <%@ include file="data.jsp"%>
-	<div id = "wrap">
+<%	
+    // title 이 전달되면, id는 없다.
+    // id가 있으면 title이 없다.
+    String title = request.getParameter("title");
+    int targetId = 0;
+    if(title == null){
+    	targetId = Integer.parseInt(request.getParameter("id"));
+    }
+
+   
+%>
+	
+	<div id="wrap">
 		<jsp:include page="header.jsp"/>
 		<jsp:include page="menu.jsp"/>
-		<section class="contents">
+			<section class="contents">
 			<div class="artist d-flex border border-success p-3 mt-2">
+			<%for(Map<String, Object> music: musicList){ 
+				
+				int time = (Integer)music.get("time");
+				
+				int min = time / 60;
+				int second = time % 60;
+				int musicId = (Integer)music.get("id");
+				if(targetId == musicId){
+				
+				// title이 없으면, id를 통한 검색
+				// title이 있으면 title을 통한 검색
+				if((title != null && title.equals(music.get("title")))
+				||	(title == null && targetId == musicId)){
+					
+
+			%>
 				<div class="image">	
-					<img width="150" src="<%= artistInfo.get("photo")%>">
+					<img width="200" src="<%= music.get("thumbnail") %>">
 				</div>
 				<div class="info ml-3">
-					<h3><%= artistInfo.get("name") %></h3>
-					<div><%= artistInfo.get("agency") %></div>
-					<div><%= artistInfo.get("debute") %>데뷔</div>
+					<div class="display-4"><%= music.get("title") %></div>
+					<div class="text-success"><%= music.get("singer") %></div>
+					<div>앨범 <%= music.get("album") %></div>
+					<div>재생시간 <%= music.get("time") %></div>
+					<div>작곡가 <%= music.get("composer") %></div>
+					<div>작사가 <%= music.get("lyricist") %></div>
+					<%}}} %>
 				</div>
 			</div>
 			
 			<div class="music-list mt-3">
-				<h3>곡 목록</h3>
+				<h3>가사</h3>
 				<table class="table table-sm text-center">
 					<thead>
 						<tr>
-							<th>no</th>
-							<th>제목</th>
-							<th>앨범</th>
+							
 						</tr>
 					</thead>
 					<tbody>
-					<% for(Map<String, Object> music : musicList){ %>
 						<tr>
-							<td><%= music.get("id") %></td>
-							<td><a href="/jspTemplete/test02/test02_1.jsp?id=<%=music.get("id") %>" class="nav-link"><%= music.get("title") %></a></td>
-							<td><%= music.get("album") %></td>
+							<td>가사정보 없음</td>
 						</tr>
-					<%} %>				
 					</tbody>
 				</table>
 			</div>
 				
 		</section>
 		<jsp:include page="footer.jsp"/>
+	
 	</div>
+
 </body>
 </html>
