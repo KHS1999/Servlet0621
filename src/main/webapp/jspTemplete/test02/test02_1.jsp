@@ -39,7 +39,6 @@
 				int min = time / 60;
 				int second = time % 60;
 				int musicId = (Integer)music.get("id");
-				if(targetId == musicId){
 				
 				// title이 없으면, id를 통한 검색
 				// title이 있으면 title을 통한 검색
@@ -58,7 +57,7 @@
 					<div>재생시간 <%= music.get("time") %></div>
 					<div>작곡가 <%= music.get("composer") %></div>
 					<div>작사가 <%= music.get("lyricist") %></div>
-					<%}}} %>
+					<%}} %>
 				</div>
 			</div>
 			
